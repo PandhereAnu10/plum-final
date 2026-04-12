@@ -6,7 +6,7 @@ An intelligent, full-stack automation tool designed to streamline Outpatient Dep
 - **Live Demo:** https://plum-final.vercel.app/
 
 ## System Architecture
-![System Architecture](./architecture.svg)
+![System Architecture](./backend/architecture.svg)
 
 ## Features
 - **AI-Powered Adjudication:** Uses Groq (Llama 3.3 70B) to analyze medical necessity and policy limits.
