@@ -16,6 +16,12 @@ def get_supabase() -> Any:
 
     url = os.getenv("SUPABASE_URL")
     key = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_ANON_KEY")
+    print(f"DEBUG: Supabase URL exists: {bool(url)}")
+    print(f"DEBUG: Supabase Key exists: {bool(key)}")
+    if url:
+        print(f"DEBUG: URL starts with: {url[:10]}...")
+    if key:
+        print(f"DEBUG: Key length: {len(key)}")
     if not url or not key:
         raise RuntimeError(
             "Supabase credentials missing from environment variables "
