@@ -1,4 +1,4 @@
-"""Load mock claim payloads from repo-root test_cases.json (backend/../test_cases.json)."""
+"""Load mock claim payloads from backend/test_cases.json."""
 
 from __future__ import annotations
 
@@ -7,10 +7,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-# Repo root: one level up from backend/ → ../test_cases.json
 _BACKEND_DIR = Path(__file__).resolve().parent
-_REPO_ROOT = _BACKEND_DIR.parent
-_TEST_CASES_FILE = _REPO_ROOT / "test_cases.json"
+_TEST_CASES_FILE = _BACKEND_DIR / "test_cases.json"
 
 
 @lru_cache
@@ -23,7 +21,7 @@ def _all_cases() -> list[dict[str, Any]]:
     path = _cases_path()
     if not path.is_file():
         raise FileNotFoundError(
-            f"test_cases.json not found at {path} (expected backend/../test_cases.json)"
+            f"test_cases.json not found at {path} (expected backend/test_cases.json)"
         )
     raw = json.loads(path.read_text(encoding="utf-8"))
     return list(raw.get("test_cases", []))

@@ -1,5 +1,5 @@
 """
-Read policy_terms.json from the repository root and prepare a row for `policies`.
+Read policy_terms.json from the backend folder and prepare a row for `policies`.
 
 Usage (from repo root, with venv active):
   python -m backend.seed_policy
@@ -21,8 +21,8 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
-ROOT = Path(__file__).resolve().parent.parent
-POLICY_FILE = ROOT / "policy_terms.json"
+BACKEND_DIR = Path(__file__).resolve().parent
+POLICY_FILE = BACKEND_DIR / "policy_terms.json"
 
 
 def load_policy_document() -> dict:
@@ -64,6 +64,8 @@ def main() -> None:
 
     from supabase import create_client
 
+    url = url.strip().strip("'").strip('"')
+    key = key.strip().strip("'").strip('"')
     client = create_client(url, key)
     # Upsert on policy_code if you add a unique constraint; plain insert for fresh DB
     res = client.table("policies").upsert(row, on_conflict="policy_code").execute()

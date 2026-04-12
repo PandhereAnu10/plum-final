@@ -18,8 +18,11 @@ def get_supabase() -> Any:
     key = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_ANON_KEY")
     if not url or not key:
         raise RuntimeError(
-            "SUPABASE_URL and SUPABASE_ANON_KEY (or SUPABASE_SERVICE_ROLE_KEY) are required."
+            "Supabase credentials missing from environment variables "
+            "(SUPABASE_URL and SUPABASE_ANON_KEY or SUPABASE_SERVICE_ROLE_KEY)."
         )
+    url = url.strip().strip("'").strip('"')
+    key = key.strip().strip("'").strip('"')
     return create_client(url, key)
 
 

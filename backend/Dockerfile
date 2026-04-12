@@ -15,7 +15,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the backend code
+# Full backend tree (includes policy_terms.json, adjudication_rules.md, test_cases.json)
 COPY . .
 
 # Expose the port FastAPI runs on
