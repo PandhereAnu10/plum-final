@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fff5f7;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --plum-brand: #701a75;
+  --accent: #701a75;
+}
+
+.dark {
+  --background: #050505;
+  --foreground: #fafafa;
+  --card: #050505;
+  --accent: #a855f7;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-panel {
+    @apply rounded-2xl border border-zinc-200/90 bg-white shadow-xl shadow-[#701a75]/[0.08] backdrop-blur-xl dark:border-white/10 dark:bg-[#050505] dark:shadow-black/40;
+  }
+
+  .glass-panel-strong {
+    @apply rounded-3xl border border-zinc-200/90 bg-white shadow-2xl shadow-[#701a75]/[0.1] backdrop-blur-2xl dark:border-white/10 dark:bg-[#050505] dark:shadow-black/50;
+  }
+}
+
+.plum-shimmer {
+  background: linear-gradient(
+    110deg,
+    #fce7ed 0%,
+    #ffffff 40%,
+    #f5e0ea 50%,
+    #ffffff 60%,
+    #fce7ed 100%
+  );
+  background-size: 200% 100%;
+  animation: midnight-shimmer 1.4s ease-in-out infinite;
+}
+
+.dark .plum-shimmer {
+  background: linear-gradient(
+    110deg,
+    rgba(39, 39, 42, 0.9) 0%,
+    rgba(63, 63, 70, 0.95) 40%,
+    rgba(82, 82, 91, 0.85) 50%,
+    rgba(63, 63, 70, 0.95) 60%,
+    rgba(39, 39, 42, 0.9) 100%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes midnight-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
