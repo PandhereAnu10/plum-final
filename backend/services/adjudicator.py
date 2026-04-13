@@ -77,6 +77,14 @@ class Adjudicator:
         self._few_shot = _few_shot_expected_outputs()
 
     def _system_prompt(self) -> str:
+        bill_arithmetic_audit = (
+            "## Bill arithmetic audit (mandatory — strict auditor)\n"
+            "You are a strict auditor. Before making a decision, you **MUST** extract all individual "
+            "line-item amounts from the bill (OCR/fixture text) and **sum** them. If the calculated sum "
+            "does **not** match the **Total** (or grand total) amount stated on the bill, you **MUST** set "
+            "**decision** to **MANUAL_REVIEW** and add the specific fraud indicator **`MATH_INCONSISTENCY`** "
+            "to **fraud_indicators**. Do not silently trust the printed total; reconciliation comes first.\n\n"
+        )
         hard_limits = (
             "## Mandatory limit rules (do not contradict)\n"
             "- **Per-claim cap**: Under `coverage_details.per_claim_limit`, the policy sets **₹5,000** "
@@ -99,8 +107,10 @@ class Adjudicator:
             "## Fraud & integrity signals (adjudication_rules.md — Fraud Indicators)\n"
             "Populate **fraud_indicators** as an array of short strings describing anything suspicious "
             "found (empty array if none). Check for:\n"
-            "(a) **Math errors**: line items or subtotals that do not sum to the bill total or to "
-            "**claim_amount** in context.\n"
+            "(a) **Math errors / bill totals**: line items or subtotals that do not sum to the bill total "
+            "or to **claim_amount** in context — if the line-item sum ≠ stated bill total, you already "
+            "**MUST** output **MANUAL_REVIEW** + **`MATH_INCONSISTENCY`** per **Bill arithmetic audit** "
+            "(use that exact token in **fraud_indicators**).\n"
             "(b) **Non-medical / excluded-style items** billed as medical: e.g. cosmetic dentistry "
             "(teeth whitening), vitamins/supplements (unless policy allows prescribed deficiency), "
             "wellness/cosmetic SKUs, non-clinical charges.\n"
@@ -131,6 +141,7 @@ class Adjudicator:
         return (
             "You are Plum's OPD claim adjudication engine. Apply ONLY the rules below, the policy JSON, "
             "and the exemplars. Work through Steps 1–5 in order.\n\n"
+            f"{bill_arithmetic_audit}"
             f"{hard_limits}"
             f"{fraud_block}"
             f"{confidence_block}"
