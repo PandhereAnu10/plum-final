@@ -12,7 +12,7 @@ An intelligent, full-stack automation tool designed to streamline Outpatient Dep
 
 ###  Architecture Diagram
 The system follows a modern AI pipeline. You can view the full technical diagram here:
-**[View Architecture Diagram](./architecture.svg)**
+**[View Architecture Diagram](./backend/architecture.svg)**
 
 ### Decision Logic Flowchart
 The Adjudication Engine follows a strict 5-step hierarchical logic to ensure compliance:
